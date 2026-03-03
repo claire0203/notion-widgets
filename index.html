@@ -2,152 +2,144 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            --bg-pastel-blue: #f2f7ff;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --text-main: #1d1d1f;
-            --text-sub: #86868b;
-            --accent-blue: #0071e3;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --radius: 14px;
+            --bg-soft-blue: #f5f8fa;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #444446;
+            --text-sub: #8e8e93;
+            /* 소프트 파스텔 팔레트 */
+            --p-blue: #e3f2fd;   /* 공부 (국어/수학) */
+            --p-mint: #e8f5e9;   /* 운동 (검도/요가/필라) */
+            --p-peach: #fff3e0;  /* 아르바이트 */
+            --p-purple: #f3e5f5; /* 학교 */
+            --p-grey: #f5f5f5;   /* 복습/설계 */
+            --border: rgba(0, 0, 0, 0.03);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro KR", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-pastel-blue);
+            font-family: -apple-system, "SF Pro KR", sans-serif;
+            background-color: var(--bg-soft-blue);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            overflow: hidden; /* 세로 스크롤 방지 */
         }
 
         .container {
-            width: 100%;
-            max-width: 1200px;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 12px;
+            gap: 6px;
+            width: 100%;
+            max-width: 1100px;
         }
 
-        .day-column {
+        .day-col {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 5px;
         }
 
-        .day-header {
+        .header {
             text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 10px 0;
-            color: var(--accent-blue);
-            letter-spacing: -0.02em;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 0;
+            color: #7a92a3;
+            text-transform: uppercase;
         }
 
-        .card {
+        .item {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--radius);
-            padding: 12px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
         }
 
         .time {
-            font-size: 10px;
-            font-weight: 500;
+            font-size: 9px;
             color: var(--text-sub);
-            margin-bottom: 4px;
-            display: block;
+            margin-bottom: 2px;
+            font-weight: 500;
         }
 
         .title {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* 일정 성격별 포인트 컬러 */
-        .study { border-left: 3px solid #0071e3; }
-        .work { border-left: 3px solid #ff9f0a; }
-        .health { border-left: 3px solid #32d74b; }
-        .school { border-left: 3px solid #af52de; }
+        /* 색상 지정 */
+        .study { background-color: var(--p-blue); }
+        .health { background-color: var(--p-mint); }
+        .work { background-color: var(--p-peach); }
+        .school { background-color: var(--p-purple); }
+        .extra { background-color: var(--p-grey); }
 
-        @media (max-width: 800px) {
-            .container { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="day-column">
-        <div class="day-header">월요일</div>
-        <div class="card study"><span class="time">07:00</span><div class="title">📖 언매(국어)</div></div>
-        <div class="card health"><span class="time">11:30</span><div class="title">⚔️ 검도</div></div>
-        <div class="card study"><span class="time">13:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">📜 쌍사(역사)</div></div>
+    <div class="day-col">
+        <div class="header">MON</div>
+        <div class="item study"><span class="time">07:00</span><div class="title">📖 언매(국)</div></div>
+        <div class="item health"><span class="time">11:30</span><div class="title">⚔️ 검도</div></div>
+        <div class="item study"><span class="time">13:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item study"><span class="time">21:00</span><div class="title">📜 쌍사(역)</div></div>
     </div>
-
-    <div class="day-column">
-        <div class="day-header">화요일</div>
-        <div class="card health"><span class="time">07:00</span><div class="title">🧘 요가</div></div>
-        <div class="card school"><span class="time">10:30</span><div class="title">🏫 학교 수업</div></div>
-        <div class="card work"><span class="time">13:00</span><div class="title">💼 아르바이트</div></div>
-        <div class="card study"><span class="time">18:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">📜 쌍사(역사)</div></div>
+    <div class="day-col">
+        <div class="header">TUE</div>
+        <div class="item health"><span class="time">07:00</span><div class="title">🧘 요가</div></div>
+        <div class="item school"><span class="time">10:30</span><div class="title">🏫 학교</div></div>
+        <div class="item work"><span class="time">13:00</span><div class="title">💼 알바</div></div>
+        <div class="item study"><span class="time">18:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item study"><span class="time">21:00</span><div class="title">📜 쌍사(역)</div></div>
     </div>
-
-    <div class="day-column">
-        <div class="day-header">수요일</div>
-        <div class="card study"><span class="time">07:00</span><div class="title">📖 언매(국어)</div></div>
-        <div class="card health"><span class="time">11:30</span><div class="title">⚔️ 검도</div></div>
-        <div class="card study"><span class="time">13:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">📜 쌍사(역사)</div></div>
+    <div class="day-col">
+        <div class="header">WED</div>
+        <div class="item study"><span class="time">07:00</span><div class="title">📖 언매(국)</div></div>
+        <div class="item health"><span class="time">11:30</span><div class="title">⚔️ 검도</div></div>
+        <div class="item study"><span class="time">13:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item study"><span class="time">21:00</span><div class="title">📜 쌍사(역)</div></div>
     </div>
-
-    <div class="day-column">
-        <div class="day-header">목요일</div>
-        <div class="card health"><span class="time">07:00</span><div class="title">🧘 요가</div></div>
-        <div class="card school"><span class="time">10:30</span><div class="title">🏫 학교 수업</div></div>
-        <div class="card work"><span class="time">13:00</span><div class="title">💼 아르바이트</div></div>
-        <div class="card study"><span class="time">18:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">📜 쌍사(역사)</div></div>
+    <div class="day-col">
+        <div class="header">THU</div>
+        <div class="item health"><span class="time">07:00</span><div class="title">🧘 요가</div></div>
+        <div class="item school"><span class="time">10:30</span><div class="title">🏫 학교</div></div>
+        <div class="item work"><span class="time">13:00</span><div class="title">💼 알바</div></div>
+        <div class="item study"><span class="time">18:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item study"><span class="time">21:00</span><div class="title">📜 쌍사(역)</div></div>
     </div>
-
-    <div class="day-column">
-        <div class="day-header">금요일</div>
-        <div class="card study"><span class="time">07:00</span><div class="title">📖 언매(국어)</div></div>
-        <div class="card health"><span class="time">11:30</span><div class="title">⚔️ 검도</div></div>
-        <div class="card study"><span class="time">13:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">📜 쌍사(역사)</div></div>
+    <div class="day-col">
+        <div class="header">FRI</div>
+        <div class="item study"><span class="time">07:00</span><div class="title">📖 언매(국)</div></div>
+        <div class="item health"><span class="time">11:30</span><div class="title">⚔️ 검도</div></div>
+        <div class="item study"><span class="time">13:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item study"><span class="time">21:00</span><div class="title">📜 쌍사(역)</div></div>
     </div>
-
-    <div class="day-column">
-        <div class="day-header">토요일</div>
-        <div class="card health"><span class="time">09:00</span><div class="title">🤸 필라테스</div></div>
-        <div class="card work"><span class="time">13:00</span><div class="title">💼 아르바이트</div></div>
-        <div class="card study"><span class="time">18:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">🔍 주간 오답</div></div>
+    <div class="day-col">
+        <div class="header">SAT</div>
+        <div class="item health"><span class="time">09:00</span><div class="title">🤸 필라테스</div></div>
+        <div class="item work"><span class="time">13:00</span><div class="title">💼 알바</div></div>
+        <div class="item study"><span class="time">18:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item extra"><span class="time">21:00</span><div class="title">🔍 주간오답</div></div>
     </div>
-
-    <div class="day-column">
-        <div class="day-header">일요일</div>
-        <div class="card study"><span class="time">09:00</span><div class="title">📝 국어 실전</div></div>
-        <div class="card work"><span class="time">13:00</span><div class="title">💼 아르바이트</div></div>
-        <div class="card study"><span class="time">18:00</span><div class="title">📐 기하(수학)</div></div>
-        <div class="card study"><span class="time">21:00</span><div class="title">🗓️ 다음주 설계</div></div>
+    <div class="day-col">
+        <div class="header">SUN</div>
+        <div class="item study"><span class="time">09:00</span><div class="title">📝 국어실전</div></div>
+        <div class="item work"><span class="time">13:00</span><div class="title">💼 알바</div></div>
+        <div class="item study"><span class="time">18:00</span><div class="title">📐 기하(수)</div></div>
+        <div class="item extra"><span class="time">21:00</span><div class="title">🗓️ 주간설계</div></div>
     </div>
 </div>
 
