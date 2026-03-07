@@ -5,22 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            --bg-color: #ffffff; /* 노션 백그라운드와 일체감 */
-            --card-bg: #f7f7f5;  /* 노션 기본 회색 블록 느낌 */
-            --accent-blue: #007aff;
-            --accent-orange: #ff9500;
-            --accent-green: #34c759;
-            --accent-purple: #5856d6;
-            --text-main: #37352f;
-            --text-sub: #787774;
+            /* 배경 및 fallback 카드 */
+            --bg-color: #f5f8fa; /* original soft blue background */
+            --card-default: #f5f5f5; /* light grey for fallback/empty */
             --border: rgba(0,0,0,0.06);
+
+            /* Original Pastel Palette (image_0.png) */
+            --study-bg: #e3f2fd;    /* Light Blue */
+            --study-color: #007aff; /* Accent Blue for time */
+            
+            --exercise-bg: #e8f5e9; /* Light Mint Green */
+            --exercise-color: #5856d6; /* Accent Purple for time */
+            
+            --work-bg: #fff3e0;    /* Light Peach Orange */
+            --work-color: #ff9500;  /* Accent Orange for time */
+            
+            --school-bg: #f3e5f5;   /* Light Purple */
+            --school-color: #34c759;  /* Accent Green for time */
+
+            /* Text Colors */
+            --text-main: #444446;   /* Dark Grey (restored contrast) */
+            --text-sub: #8e8e93;    /* Mid Grey (restored contrast) */
+            --header-text: #7a92a3; /* Steel Blue for headers (original style) */
         }
 
         body {
             margin: 0;
             padding: 5px;
             font-family: -apple-system, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-color); /* 복구된 배경색 */
             overflow: hidden; /* 스크롤 절대 방지 */
             height: 100vh;
             display: flex;
@@ -47,7 +60,7 @@
             text-align: center;
             font-weight: 700;
             font-size: 11px;
-            color: var(--text-sub);
+            color: var(--header-text); /* 복구된 헤더 텍스트 색상 */
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border-bottom: 2px solid var(--border);
@@ -55,7 +68,7 @@
         }
 
         .event-card {
-            background: var(--card-bg);
+            background-color: var(--card-default); /*Fallback/Empty */
             border-radius: 8px;
             padding: 6px 8px;
             border: 1px solid var(--border);
@@ -63,7 +76,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            border-left: none; /* 이전 디자인의 border-left 강조 제거 */
         }
+
+        /* 과목별 파스텔 배경 복구 (카드가 통째로 색깔로 바뀜) */
+        .event-card.study { background-color: var(--study-bg); color: var(--text-main); }
+        .event-card.work { background-color: var(--work-bg); color: var(--text-main); }
+        .event-card.exercise { background-color: var(--exercise-bg); color: var(--text-main); }
+        .event-card.school { background-color: var(--school-bg); color: var(--text-main); }
 
         .time {
             font-size: 9px;
@@ -71,107 +91,20 @@
             margin-bottom: 1px;
             white-space: nowrap;
         }
+        
+        /* 과목별 시간 텍스트 강조 복구 (배경색과 어울리는 포인트 색상) */
+        .event-card.study .time { color: var(--study-color); }
+        .event-card.work .time { color: var(--work-color); }
+        .event-card.exercise .time { color: var(--exercise-color); }
+        .event-card.school .time { color: var(--school-color); }
 
         .title {
             font-size: 10.5px;
             font-weight: 600;
-            color: var(--text-main);
+            color: var(--text-main); /* 모든 타이틀은 다크 그레이로 통일 (가독성 확보) */
             line-height: 1.2;
             display: block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
-        /* 카테고리별 컬러 라벨 (왼쪽 보더) */
-        .study { border-left: 3px solid var(--accent-blue); color: var(--accent-blue); }
-        .work { border-left: 3px solid var(--accent-orange); color: var(--accent-orange); }
-        .exercise { border-left: 3px solid var(--accent-purple); color: var(--accent-purple); }
-        .school { border-left: 3px solid var(--accent-green); color: var(--accent-green); }
-
-        .empty-state {
-            flex-grow: 1;
-            border: 1px dashed var(--border);
-            border-radius: 8px;
-            margin-top: 2px;
-            opacity: 0.3;
-        }
-
-        /* 패드 가로모드 글자 크기 보정 */
-        @media (min-width: 1024px) {
-            .title { font-size: 11.5px; }
-            .time { font-size: 10px; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="calendar-container" id="week-grid"></div>
-
-<script>
-    const scheduleData = {
-        "월": [
-            { t: "08:30-11:00", n: "📖 언매 기출", type: "study" },
-            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
-            { t: "14:30-18:00", n: "📐 기하 유형", type: "study" },
-            { t: "20:00-22:00", n: "📜 쌍사 정리", type: "study" }
-        ],
-        "화": [
-            { t: "07:00-08:00", n: "요가 🧘", type: "exercise" },
-            { t: "09:00-12:00", n: "📝 국어 실전", type: "study" },
-            { t: "13:30-18:00", n: "📐 수학 딥워크", type: "study" },
-            { t: "20:00-22:30", n: "🔍 취약점 보완", type: "study" }
-        ],
-        "수": [
-            { t: "08:30-11:00", n: "📖 언매 기출", type: "study" },
-            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
-            { t: "14:30-18:00", n: "📐 기하 유형", type: "study" },
-            { t: "20:00-22:00", n: "📜 쌍사 정리", type: "study" }
-        ],
-        "목": [
-            { t: "07:00-08:00", n: "요가 🧘", type: "exercise" },
-            { t: "11:00-13:00", n: "학교 🏫", type: "school" },
-            { t: "14:00-17:00", n: "📚 개념/인강", type: "study" },
-            { t: "18:00-22:00", n: "알바 💼", type: "work" }
-        ],
-        "금": [
-            { t: "08:00-11:00", n: "알바 💼", type: "work" },
-            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
-            { t: "15:00-17:00", n: "단과 수업 🏫", type: "school" },
-            { t: "18:00-20:30", n: "✍️ 수업 복습", type: "study" }
-        ],
-        "토": [
-            { t: "09:00-09:50", n: "필라테스 🤸", type: "exercise" },
-            { t: "11:00-13:00", n: "📖 국어 취약", type: "study" },
-            { t: "14:00-18:00", n: "🔍 오답 총정리", type: "study" }
-        ],
-        "일": []
-    };
-
-    const days = ["월", "화", "수", "목", "금", "토", "일"];
-    const container = document.getElementById('week-grid');
-
-    days.forEach(day => {
-        const column = document.createElement('div');
-        column.className = 'day-column';
-        let html = `<div class="day-header">${day}</div>`;
-        if (scheduleData[day].length > 0) {
-            scheduleData[day].forEach(item => {
-                html += `
-                    <div class="event-card ${item.type}">
-                        <div class="time">${item.t}</div>
-                        <div class="title">${item.n}</div>
-                    </div>
-                `;
-            });
-            html += `<div class="empty-state"></div>`;
-        } else {
-            html += `<div class="empty-state"></div>`;
-        }
-        column.innerHTML = html;
-        container.appendChild(column);
-    });
-</script>
-
-</body>
-</html>
