@@ -3,101 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Systemic Weekly Schedule</title>
     <style>
         :root {
-            --bg-color: #e3f2fd;
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --accent-blue: #007aff;   /* 공부 */
-            --accent-orange: #ff9500; /* 아르바이트 */
-            --accent-green: #34c759;  /* 학교 */
-            --accent-purple: #5856d6; /* 운동 */
-            --text-main: #1d1d1f;
-            --text-sub: #86868b;
+            --bg-color: #ffffff; /* 노션 백그라운드와 일체감 */
+            --card-bg: #f7f7f5;  /* 노션 기본 회색 블록 느낌 */
+            --accent-blue: #007aff;
+            --accent-orange: #ff9500;
+            --accent-green: #34c759;
+            --accent-purple: #5856d6;
+            --text-main: #37352f;
+            --text-sub: #787774;
+            --border: rgba(0,0,0,0.06);
         }
-
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             margin: 0;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 5px;
+            font-family: -apple-system, sans-serif;
             background-color: var(--bg-color);
+            overflow: hidden; /* 스크롤 절대 방지 */
+            height: 100vh;
             display: flex;
-            justify-content: center;
-            min-height: 100vh;
+            align-items: flex-start;
         }
 
         .calendar-container {
             width: 100%;
-            max-width: 1200px;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
+            gap: 6px;
+            height: 98vh; /* 패드 화면 높이에 맞춤 */
         }
 
         .day-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            min-width: 130px;
+            gap: 4px;
+            height: 100%;
         }
 
         .day-header {
-            padding: 12px;
+            padding: 8px 0;
             text-align: center;
             font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 5px;
+            font-size: 11px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 4px;
         }
 
         .event-card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            transition: transform 0.2s ease;
+            border-radius: 8px;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            min-height: 45px; /* 높이 압축 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .event-card:hover { transform: translateY(-3px); background: #ffffff; }
-
         .time {
-            font-size: 0.7rem;
+            font-size: 9px;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 1px;
+            white-space: nowrap;
         }
 
         .title {
-            font-size: 0.85rem;
+            font-size: 10.5px;
             font-weight: 600;
             color: var(--text-main);
-            line-height: 1.3;
+            line-height: 1.2;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        /* 일정 종류별 색상 */
-        .study { color: var(--accent-blue); }
-        .work { color: var(--accent-orange); }
-        .exercise { color: var(--accent-purple); }
-        .school { color: var(--accent-green); }
+        /* 카테고리별 컬러 라벨 (왼쪽 보더) */
+        .study { border-left: 3px solid var(--accent-blue); color: var(--accent-blue); }
+        .work { border-left: 3px solid var(--accent-orange); color: var(--accent-orange); }
+        .exercise { border-left: 3px solid var(--accent-purple); color: var(--accent-purple); }
+        .school { border-left: 3px solid var(--accent-green); color: var(--accent-green); }
 
         .empty-state {
-            height: 50px;
-            border: 1.5px dashed rgba(255, 255, 255, 0.4);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(0, 0, 0, 0.2);
-            font-size: 0.7rem;
+            flex-grow: 1;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            margin-top: 2px;
+            opacity: 0.3;
         }
 
-        @media (max-width: 1000px) {
-            .calendar-container { grid-template-columns: 1fr; }
+        /* 패드 가로모드 글자 크기 보정 */
+        @media (min-width: 1024px) {
+            .title { font-size: 11.5px; }
+            .time { font-size: 10px; }
         }
     </style>
 </head>
@@ -108,39 +111,39 @@
 <script>
     const scheduleData = {
         "월": [
-            { t: "08:30 - 11:00", n: "📖 언매(국) 기출", type: "study" },
-            { t: "11:30 - 13:00", n: "검도 🤺", type: "exercise" },
-            { t: "14:30 - 18:00", n: "📐 기하(수) 유형", type: "study" },
-            { t: "20:00 - 22:00", n: "📜 쌍사(탐) 정리", type: "study" }
+            { t: "08:30-11:00", n: "📖 언매 기출", type: "study" },
+            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
+            { t: "14:30-18:00", n: "📐 기하 유형", type: "study" },
+            { t: "20:00-22:00", n: "📜 쌍사 정리", type: "study" }
         ],
         "화": [
-            { t: "07:00 - 08:00", n: "요가 🧘", type: "exercise" },
-            { t: "09:00 - 12:00", n: "📝 국어 실전모의", type: "study" },
-            { t: "13:30 - 18:00", n: "📐 수학 딥워크", type: "study" },
-            { t: "20:00 - 22:30", n: "🔍 취약점 보완", type: "study" }
+            { t: "07:00-08:00", n: "요가 🧘", type: "exercise" },
+            { t: "09:00-12:00", n: "📝 국어 실전", type: "study" },
+            { t: "13:30-18:00", n: "📐 수학 딥워크", type: "study" },
+            { t: "20:00-22:30", n: "🔍 취약점 보완", type: "study" }
         ],
         "수": [
-            { t: "08:30 - 11:00", n: "📖 언매(국) 기출", type: "study" },
-            { t: "11:30 - 13:00", n: "검도 🤺", type: "exercise" },
-            { t: "14:30 - 18:00", n: "📐 기하(수) 유형", type: "study" },
-            { t: "20:00 - 22:00", n: "📜 쌍사(탐) 정리", type: "study" }
+            { t: "08:30-11:00", n: "📖 언매 기출", type: "study" },
+            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
+            { t: "14:30-18:00", n: "📐 기하 유형", type: "study" },
+            { t: "20:00-22:00", n: "📜 쌍사 정리", type: "study" }
         ],
         "목": [
-            { t: "07:00 - 08:00", n: "요가 🧘", type: "exercise" },
-            { t: "11:00 - 13:00", n: "학교 🏫", type: "school" },
-            { t: "14:00 - 17:00", n: "📚 개념 인강/복습", type: "study" },
-            { t: "18:00 - 22:00", n: "아르바이트 💼", type: "work" }
+            { t: "07:00-08:00", n: "요가 🧘", type: "exercise" },
+            { t: "11:00-13:00", n: "학교 🏫", type: "school" },
+            { t: "14:00-17:00", n: "📚 개념/인강", type: "study" },
+            { t: "18:00-22:00", n: "알바 💼", type: "work" }
         ],
         "금": [
-            { t: "08:00 - 11:00", n: "아르바이트 💼", type: "work" },
-            { t: "11:30 - 13:00", n: "검도 🤺", type: "exercise" },
-            { t: "15:00 - 17:00", n: "단과 수업 🏫", type: "school" },
-            { t: "18:00 - 20:30", n: "✍️ 수업 당일복습", type: "study" }
+            { t: "08:00-11:00", n: "알바 💼", type: "work" },
+            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
+            { t: "15:00-17:00", n: "단과 수업 🏫", type: "school" },
+            { t: "18:00-20:30", n: "✍️ 수업 복습", type: "study" }
         ],
         "토": [
-            { t: "09:00 - 09:50", n: "필라테스 🤸", type: "exercise" },
-            { t: "11:00 - 13:00", n: "📖 국어 취약지문", type: "study" },
-            { t: "14:00 - 18:00", n: "🔍 주간 오답총정리", type: "study" }
+            { t: "09:00-09:50", n: "필라테스 🤸", type: "exercise" },
+            { t: "11:00-13:00", n: "📖 국어 취약", type: "study" },
+            { t: "14:00-18:00", n: "🔍 오답 총정리", type: "study" }
         ],
         "일": []
     };
@@ -151,22 +154,20 @@
     days.forEach(day => {
         const column = document.createElement('div');
         column.className = 'day-column';
-        
         let html = `<div class="day-header">${day}</div>`;
-        
         if (scheduleData[day].length > 0) {
             scheduleData[day].forEach(item => {
                 html += `
-                    <div class="event-card">
-                        <div class="time ${item.type}">${item.t}</div>
+                    <div class="event-card ${item.type}">
+                        <div class="time">${item.t}</div>
                         <div class="title">${item.n}</div>
                     </div>
                 `;
             });
+            html += `<div class="empty-state"></div>`;
         } else {
-            html += `<div class="empty-state">No plans</div>`;
+            html += `<div class="empty-state"></div>`;
         }
-        
         column.innerHTML = html;
         container.appendChild(column);
     });
