@@ -108,3 +108,91 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        .empty-state {
+            flex-grow: 1;
+            background-color: var(--card-default); /*Fallback/Empty */
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            margin-top: 2px;
+            opacity: 0.3;
+        }
+
+        /* 패드 가로모드 글자 크기 보정 */
+        @media (min-width: 1024px) {
+            .title { font-size: 11.5px; }
+            .time { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calendar-container" id="week-grid"></div>
+
+<script>
+    const scheduleData = {
+        "월": [
+            { t: "08:30-11:00", n: "📖 언매 기출", type: "study" },
+            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
+            { t: "14:30-18:00", n: "📐 기하 유형", type: "study" },
+            { t: "20:00-22:00", n: "📜 쌍사 정리", type: "study" }
+        ],
+        "화": [
+            { t: "07:00-08:00", n: "요가 🧘", type: "exercise" },
+            { t: "09:00-12:00", n: "📝 국어 실전", type: "study" },
+            { t: "13:30-18:00", n: "📐 수학 딥워크", type: "study" },
+            { t: "20:00-22:30", n: "🔍 취약점 보완", type: "study" }
+        ],
+        "수": [
+            { t: "08:30-11:00", n: "📖 언매 기출", type: "study" },
+            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
+            { t: "14:30-18:00", n: "📐 기하 유형", type: "study" },
+            { t: "20:00-22:00", n: "📜 쌍사 정리", type: "study" }
+        ],
+        "목": [
+            { t: "07:00-08:00", n: "요가 🧘", type: "exercise" },
+            { t: "11:00-13:00", n: "학교 🏫", type: "school" },
+            { t: "14:00-17:00", n: "📚 개념/인강", type: "study" },
+            { t: "18:00-22:00", n: "알바 💼", type: "work" }
+        ],
+        "금": [
+            { t: "08:00-11:00", n: "알바 💼", type: "work" },
+            { t: "11:30-13:00", n: "검도 🤺", type: "exercise" },
+            { t: "15:00-17:00", n: "단과 수업 🏫", type: "school" },
+            { t: "18:00-20:30", n: "✍️ 수업 복습", type: "study" }
+        ],
+        "토": [
+            { t: "09:00-09:50", n: "필라테스 🤸", type: "exercise" },
+            { t: "11:00-13:00", n: "📖 국어 취약", type: "study" },
+            { t: "14:00-18:00", n: "🔍 오답 총정리", type: "study" }
+        ],
+        "일": []
+    };
+
+    const days = ["월", "화", "수", "목", "금", "토", "일"];
+    const container = document.getElementById('week-grid');
+
+    days.forEach(day => {
+        const column = document.createElement('div');
+        column.className = 'day-column';
+        let html = `<div class="day-header">${day}</div>`;
+        if (scheduleData[day].length > 0) {
+            scheduleData[day].forEach(item => {
+                html += `
+                    <div class="event-card ${item.type}">
+                        <div class="time">${item.t}</div>
+                        <div class="title">${item.n}</div>
+                    </div>
+                `;
+            });
+            html += `<div class="empty-state"></div>`;
+        } else {
+            html += `<div class="empty-state"></div>`;
+        }
+        column.innerHTML = html;
+        container.appendChild(column);
+    });
+</script>
+
+</body>
+</html>
