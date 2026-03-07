@@ -5,36 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            /* 배경 및 fallback 카드 */
-            --bg-color: #f5f8fa; /* original soft blue background */
-            --card-default: #f5f5f5; /* light grey for fallback/empty */
-            --border: rgba(0,0,0,0.06);
+            /* 배경: 요청하신 파스텔 블루 */
+            --bg-soft-blue: #f5f8fa;
+            
+            /* 카드: 애플 스타일의 깔끔한 화이트/회색 상자 */
+            --card-bg: rgba(255, 255, 255, 0.9); 
+            --card-border: rgba(0, 0, 0, 0.04);
+            
+            /* 텍스트 및 포인트 컬러 */
+            --text-main: #1d1d1f;
+            --text-sub: #86868b;
+            --header-text: #7a92a3;
 
-            /* Original Pastel Palette (image_0.png) */
-            --study-bg: #e3f2fd;    /* Light Blue */
-            --study-color: #007aff; /* Accent Blue for time */
-            
-            --exercise-bg: #e8f5e9; /* Light Mint Green */
-            --exercise-color: #5856d6; /* Accent Purple for time */
-            
-            --work-bg: #fff3e0;    /* Light Peach Orange */
-            --work-color: #ff9500;  /* Accent Orange for time */
-            
-            --school-bg: #f3e5f5;   /* Light Purple */
-            --school-color: #34c759;  /* Accent Green for time */
-
-            /* Text Colors */
-            --text-main: #444446;   /* Dark Grey (restored contrast) */
-            --text-sub: #8e8e93;    /* Mid Grey (restored contrast) */
-            --header-text: #7a92a3; /* Steel Blue for headers (original style) */
+            /* 카테고리별 포인트 색상 (글자색으로만 사용) */
+            --p-blue: #007aff;   /* 공부 */
+            --p-orange: #ff9500; /* 아르바이트 */
+            --p-green: #34c759;  /* 학교 */
+            --p-purple: #5856d6; /* 운동 */
         }
 
         body {
             margin: 0;
-            padding: 5px;
-            font-family: -apple-system, sans-serif;
-            background-color: var(--bg-color); /* 복구된 배경색 */
-            overflow: hidden; /* 스크롤 절대 방지 */
+            padding: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: var(--bg-soft-blue);
+            overflow: hidden; /* 스크롤 방지 */
             height: 100vh;
             display: flex;
             align-items: flex-start;
@@ -44,66 +39,59 @@
             width: 100%;
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-            height: 98vh; /* 패드 화면 높이에 맞춤 */
+            gap: 8px;
+            height: 98vh;
         }
 
         .day-column {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
             height: 100%;
         }
 
         .day-header {
-            padding: 8px 0;
+            padding: 10px 0;
             text-align: center;
             font-weight: 700;
             font-size: 11px;
-            color: var(--header-text); /* 복구된 헤더 텍스트 색상 */
+            color: var(--header-text);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .event-card {
-            background-color: var(--card-default); /*Fallback/Empty */
-            border-radius: 8px;
-            padding: 6px 8px;
-            border: 1px solid var(--border);
-            min-height: 45px; /* 높이 압축 */
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 8px 10px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            min-height: 48px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            border-left: none; /* 이전 디자인의 border-left 강조 제거 */
+            transition: transform 0.2s ease;
         }
-
-        /* 과목별 파스텔 배경 복구 (카드가 통째로 색깔로 바뀜) */
-        .event-card.study { background-color: var(--study-bg); color: var(--text-main); }
-        .event-card.work { background-color: var(--work-bg); color: var(--text-main); }
-        .event-card.exercise { background-color: var(--exercise-bg); color: var(--text-main); }
-        .event-card.school { background-color: var(--school-bg); color: var(--text-main); }
 
         .time {
             font-size: 9px;
             font-weight: 700;
-            margin-bottom: 1px;
+            margin-bottom: 2px;
             white-space: nowrap;
         }
-        
-        /* 과목별 시간 텍스트 강조 복구 (배경색과 어울리는 포인트 색상) */
-        .event-card.study .time { color: var(--study-color); }
-        .event-card.work .time { color: var(--work-color); }
-        .event-card.exercise .time { color: var(--exercise-color); }
-        .event-card.school .time { color: var(--school-color); }
+
+        /* 과목별 텍스트 색상 포인트 */
+        .study .time { color: var(--p-blue); }
+        .work .time { color: var(--p-orange); }
+        .school .time { color: var(--p-green); }
+        .exercise .time { color: var(--p-purple); }
 
         .title {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 600;
-            color: var(--text-main); /* 모든 타이틀은 다크 그레이로 통일 (가독성 확보) */
-            line-height: 1.2;
-            display: block;
+            color: var(--text-main);
+            line-height: 1.3;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -111,14 +99,12 @@
 
         .empty-state {
             flex-grow: 1;
-            background-color: var(--card-default); /*Fallback/Empty */
-            border: 1px dashed var(--border);
-            border-radius: 8px;
+            border: 1.5px dashed rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
             margin-top: 2px;
-            opacity: 0.3;
         }
 
-        /* 패드 가로모드 글자 크기 보정 */
+        /* 패드 가로모드 최적화 */
         @media (min-width: 1024px) {
             .title { font-size: 11.5px; }
             .time { font-size: 10px; }
@@ -185,10 +171,8 @@
                     </div>
                 `;
             });
-            html += `<div class="empty-state"></div>`;
-        } else {
-            html += `<div class="empty-state"></div>`;
         }
+        html += `<div class="empty-state"></div>`;
         column.innerHTML = html;
         container.appendChild(column);
     });
