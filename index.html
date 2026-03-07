@@ -91,7 +91,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.2);
             font-size: 0.7rem;
         }
 
@@ -110,15 +110,14 @@
             { t: "11:30 - 13:00", n: "검도 🤺", type: "exercise" }
         ],
         "화": [
-            { t: "07:00 - 08:00", n: "요가 🧘", type: "exercise" },
-            { t: "10:30 - 11:45", n: "학교 🏫", type: "school" }
+            { t: "07:00 - 08:00", n: "요가 🧘", type: "exercise" } // 학교 일정 삭제됨
         ],
         "수": [
             { t: "11:30 - 13:00", n: "검도 🤺", type: "exercise" }
         ],
         "목": [
             { t: "07:00 - 08:00", n: "요가 🧘", type: "exercise" },
-            { t: "10:30 - 11:45", n: "학교 🏫", type: "school" },
+            { t: "11:00 - 13:00", n: "학교 🏫", type: "school" },
             { t: "18:00 - ", n: "아르바이트 💼", type: "work" }
         ],
         "금": [
@@ -127,11 +126,7 @@
         "토": [
             { t: "09:00 - 09:50", n: "필라테스 🤸", type: "exercise" }
         ],
-        "일": [
-            { t: "09:00 - 13:00", n: "오전 공부 ✍️", type: "study" },
-            { t: "14:00 - 18:00", n: "오후 공부 📖", type: "study" },
-            { t: "18:00 - ", n: "자유 휴식 ☕️", type: "rest" }
-        ]
+        "일": []
     };
 
     const days = ["월", "화", "수", "목", "금", "토", "일"];
